@@ -20,14 +20,19 @@ public class JobsController {
         return service.getAllJobs();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public JobsDto getJobById(@PathVariable Long id) {
         return service.getJobById(id);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public JobsDto getJobByName(@PathVariable String name) {
         return service.getJobByName(name);
+    }
+
+    @GetMapping("/rank/{rank}")
+    public List<JobsDto> getJobsByRank(@PathVariable Integer rank) {
+        return service.getJobsByRank(rank);
     }
 
     @PostMapping
@@ -35,12 +40,12 @@ public class JobsController {
         return service.createJob(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id:[0-9]+}")
     public JobsDto updateJob(@PathVariable Long id, @RequestBody JobsDto dto) {
         return service.updateJob(id, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:[0-9]+}")
     public void deleteJob(@PathVariable Long id) {
         service.deleteJob(id);
     }

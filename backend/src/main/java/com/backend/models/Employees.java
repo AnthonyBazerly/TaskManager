@@ -6,13 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.JoinColumn;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +25,10 @@ public class Employees {
     private String emp_phone_number;
     private String emp_hire_date;
     private Long emp_salary;
+    @ManyToOne
+    @JoinColumn(name = "emp_mng_id", referencedColumnName = "emp_id", nullable = true)
     @Nullable
-    private Integer emp_mng_id = null;
+    private Employees emp_manager;
 
     @ManyToOne
     @JoinColumn(name = "emp_job_id", referencedColumnName = "job_id")

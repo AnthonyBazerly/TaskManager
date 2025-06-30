@@ -13,5 +13,5 @@ public class EmployeesDto {
     private String emp_hire_date;
     private Long emp_job_id;
     private Long emp_salary;
-    private Integer emp_mng_id;
+    private Long emp_mng_id;
 }

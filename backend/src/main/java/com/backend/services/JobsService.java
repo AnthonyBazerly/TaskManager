@@ -2,6 +2,7 @@ package com.backend.services;
 
 import com.backend.dtos.JobsDto;
 import com.backend.models.Jobs;
+import com.backend.repos.JobTypesRepo;
 import com.backend.repos.JobsRepo;
 import com.backend.mappers.JobsMapper;
 import org.springframework.stereotype.Service;
@@ -10,48 +11,58 @@ import java.util.stream.Collectors;
 
 @Service
 public class JobsService {
-    private final JobsRepo jobRepo;
+    private final JobsRepo jobsRepo;
+    private final JobTypesRepo jobTypesRepo;
+    private final JobsMapper jobsMapper;
 
-    public JobsService(JobsRepo jobRepo) {
-        this.jobRepo = jobRepo;
+    public JobsService(JobsRepo jobsRepo, JobTypesRepo jobTypesRepo, JobsMapper jobsMapper) {
+        this.jobsRepo = jobsRepo;
+        this.jobTypesRepo = jobTypesRepo;
+        this.jobsMapper = jobsMapper;
     }
 
     public List<JobsDto> getAllJobs() {
-        return jobRepo.findAll().stream()
-                .map(JobsMapper::toDto)
+        return jobsRepo.findAll().stream()
+                .map(jobsMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public JobsDto getJobById(Long id) {
-        return jobRepo.findById(id)
-                .map(JobsMapper::toDto)
+        return jobsRepo.findById(id)
+                .map(jobsMapper::toDto)
                 .orElse(null);
     }
 
     public JobsDto getJobByName(String job) {
-        return jobRepo.findByJob(job)
-                .map(JobsMapper::toDto)
+        return jobsRepo.findByJob(job)
+                .map(jobsMapper::toDto)
                 .orElse(null);
     }
 
+    public List<JobsDto> getJobsByRank(Integer rank) {
+        return jobsRepo.findAll().stream()
+                .filter(job -> job.getJob_rank() < rank)
+                .map(jobsMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public JobsDto createJob(JobsDto jobDto) {
-        Jobs job = JobsMapper.toEntity(jobDto);
-        Jobs saved = jobRepo.save(job);
-        return JobsMapper.toDto(saved);
+        Jobs job = jobsMapper.toEntity(jobDto, jobTypesRepo);
+        Jobs saved = jobsRepo.save(job);
+        return jobsMapper.toDto(saved);
     }
 
     public JobsDto updateJob(Long id, JobsDto jobDto) {
-        return jobRepo.findById(id)
+        return jobsRepo.findById(id)
                 .map(existing -> {
-                    existing.setJob_name(jobDto.getJob_name());
-                    existing.setJob_name(jobDto.getJob_name());
-                    Jobs updated = jobRepo.save(existing);
-                    return JobsMapper.toDto(updated);
+                    existing = jobsMapper.toEntity(jobDto, jobTypesRepo);
+                    Jobs updated = jobsRepo.save(existing);
+                    return jobsMapper.toDto(updated);
                 })
                 .orElse(null);
     }
 
     public void deleteJob(Long id) {
-        jobRepo.deleteById(id);
+        jobsRepo.deleteById(id);
     }
 }

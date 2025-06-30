@@ -20,7 +20,7 @@ public class EmployeesController {
         return service.getAllEmployees();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public EmployeesDto getEmployeeById(@PathVariable Long id) {
         return service.getEmployeeById(id);
     }
@@ -30,12 +30,12 @@ public class EmployeesController {
         return service.createEmployee(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id:[0-9]+}")
     public EmployeesDto updateEmployee(@PathVariable Long id, @RequestBody EmployeesDto dto) {
         return service.updateEmployee(id, dto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:[0-9]+}")
     public void deleteEmployee(@PathVariable Long id) {
         service.deleteEmployee(id);
     }
