@@ -45,4 +45,4 @@ Thumbs.db
 /backend/src/main/resources/
 /backend/target/classes/application.properties
 /backend/target/classes/data.sql
-.backend/target/classes/META-INF/additional-spring-configuration-metadata.json
+.backend/target/classes/META-INF/
