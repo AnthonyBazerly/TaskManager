@@ -40,6 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-backend/src/main/resources/
-backend/target/classes/application.properties
-backend/target/classes/data.sql
+/backend/src/main/resources/
+/backend/target/classes/application.properties
+/backend/target/classes/data.sql
