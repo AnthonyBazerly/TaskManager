@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Task")
+@RequestMapping("/api/chats")
 public class ChatsController {
     private final ChatsService service;
 

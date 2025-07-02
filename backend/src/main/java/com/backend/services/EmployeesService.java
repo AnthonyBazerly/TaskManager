@@ -5,6 +5,8 @@ import com.backend.models.Employees;
 import com.backend.repos.EmployeesRepo;
 import com.backend.mappers.EmployeesMapper;
 import com.backend.repos.JobsRepo;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,11 +16,14 @@ public class EmployeesService {
     private final EmployeesMapper employeesMapper;
     private final EmployeesRepo employeesRepo;
     private final JobsRepo jobsRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public EmployeesService(EmployeesRepo employeesRepo, JobsRepo jobsRepo, EmployeesMapper employeesMapper) {
+    public EmployeesService(EmployeesRepo employeesRepo, JobsRepo jobsRepo, EmployeesMapper employeesMapper,
+            PasswordEncoder passwordEncoder) {
         this.employeesRepo = employeesRepo;
         this.jobsRepo = jobsRepo;
         this.employeesMapper = employeesMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<EmployeesDto> getAllEmployees() {
@@ -33,8 +38,13 @@ public class EmployeesService {
                 .orElse(null);
     }
 
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
     public EmployeesDto createEmployee(EmployeesDto EmployeeDto) {
         Employees Employee = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
+        Employee.setEmp_password(passwordEncoder.encode(Employee.getEmp_password()));
         Employees saved = employeesRepo.save(Employee);
         return employeesMapper.toDto(saved);
     }
@@ -42,8 +52,9 @@ public class EmployeesService {
     public EmployeesDto updateEmployee(Long id, EmployeesDto EmployeeDto) {
         return employeesRepo.findById(id)
                 .map(existing -> {
-                    existing = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
-                    Employees updated = employeesRepo.save(existing);
+                    Employees updatedEntity = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
+                    updatedEntity.setEmp_password(passwordEncoder.encode(updatedEntity.getEmp_password()));
+                    Employees updated = employeesRepo.save(updatedEntity);
                     return employeesMapper.toDto(updated);
                 })
                 .orElse(null);

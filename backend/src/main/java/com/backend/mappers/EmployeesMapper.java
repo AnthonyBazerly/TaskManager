@@ -15,6 +15,7 @@ public class EmployeesMapper {
         entity.setEmp_first_name(dto.getEmp_first_name());
         entity.setEmp_last_name(dto.getEmp_last_name());
         entity.setEmp_email(dto.getEmp_email());
+        entity.setEmp_password(dto.getEmp_password());
         entity.setEmp_phone_number(dto.getEmp_phone_number());
         entity.setEmp_hire_date(dto.getEmp_hire_date());
         Long id = dto.getEmp_job_id();
@@ -45,6 +46,7 @@ public class EmployeesMapper {
         dto.setEmp_first_name(entity.getEmp_first_name());
         dto.setEmp_last_name(entity.getEmp_last_name());
         dto.setEmp_email(entity.getEmp_email());
+        dto.setEmp_password(entity.getEmp_password());
         dto.setEmp_phone_number(entity.getEmp_phone_number());
         dto.setEmp_hire_date(entity.getEmp_hire_date());
         dto.setEmp_job_id(job.getJob_id());

@@ -22,9 +22,11 @@ public class Employees {
     private String emp_first_name;
     private String emp_last_name;
     private String emp_email;
+    private String emp_password;
     private String emp_phone_number;
     private String emp_hire_date;
     private Long emp_salary;
+
     @ManyToOne
     @JoinColumn(name = "emp_mng_id", referencedColumnName = "emp_id", nullable = true)
     @Nullable
