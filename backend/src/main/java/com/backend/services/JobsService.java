@@ -34,14 +34,21 @@ public class JobsService {
     }
 
     public JobsDto getJobByName(String job) {
-        return jobsRepo.findByJob(job)
+        return jobsRepo.getJobByName(job)
                 .map(jobsMapper::toDto)
                 .orElse(null);
     }
 
-    public List<JobsDto> getJobsByRank(Integer rank) {
+    public List<JobsDto> getJobsByName(String name) {
         return jobsRepo.findAll().stream()
-                .filter(job -> job.getJob_rank() < rank)
+                .filter(job -> job.getJobName().toLowerCase().contains(name.toLowerCase()))
+                .map(jobsMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<JobsDto> getJobsByRankAndType(Integer rank, String type) {
+        return jobsRepo.findAll().stream()
+                .filter(job -> job.getJobRank() == rank - 1 && job.getJobType().getJtName().equalsIgnoreCase(type))
                 .map(jobsMapper::toDto)
                 .collect(Collectors.toList());
     }

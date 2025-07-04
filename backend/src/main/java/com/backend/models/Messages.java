@@ -20,24 +20,24 @@ import lombok.NoArgsConstructor;
 public class Messages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long msg_id;
-    private String msg_content;
-    private String msg_status;
-    private LocalDateTime msg_creation_date;
-    private Boolean msg_is_edited;
+    private Long msgId;
+    private String msgContent;
+    private String msgStatus;
+    private LocalDateTime msgCreationDate;
+    private Boolean msgIsEdited;
     // message type + attachments variables can be added
 
     @ManyToOne
-    @JoinColumn(name = "msg_chat_id", referencedColumnName = "chat_id")
+    @JoinColumn(name = "msgChatId", referencedColumnName = "chatId")
     @Nullable
-    private Chats msg_chat;
+    private Chats msgChat;
 
     @ManyToOne
-    @JoinColumn(name = "msg_created_by_emp_id", referencedColumnName = "emp_id")
-    private Employees msg_created_by_employee;
+    @JoinColumn(name = "msgCreatedByEmpId", referencedColumnName = "empId")
+    private Employees msgCreatedByEmployee;
 
     @ManyToOne
-    @JoinColumn(name = "msg_reply_msg_id", referencedColumnName = "msg_id")
+    @JoinColumn(name = "msgReplyMsgId", referencedColumnName = "msgId")
     @Nullable
-    private Messages msg_reply_message;
+    private Messages msgReplyMessage;
 }

@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 public class Jobs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long job_id;
-    private String job_name;
-    private Integer job_rank;
+    private Long jobId;
+    private String jobName;
+    private Integer jobRank;
 
     @ManyToOne
-    @JoinColumn(name = "job_jt_id", referencedColumnName = "jt_id")
-    private JobTypes job_type;
+    @JoinColumn(name = "jobJtId", referencedColumnName = "jtId")
+    private JobTypes jobType;
 }

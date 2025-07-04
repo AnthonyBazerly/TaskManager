@@ -23,23 +23,23 @@ import lombok.NoArgsConstructor;
 public class Chats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chat_id;
-    private String chat_name;
-    private String chat_status; // pinned, active, archived
-    private LocalDateTime chat_creation_date;
+    private Long chatId;
+    private String chatName;
+    private String chatStatus; // pinned, active, archived
+    private LocalDateTime chatCreationDate;
     @Nullable
-    private LocalDateTime chat_updated_date;
+    private LocalDateTime chatUpdatedDate;
 
     @ManyToOne
-    @JoinColumn(name = "chat_task_id", referencedColumnName = "task_id")
+    @JoinColumn(name = "chatTaskId", referencedColumnName = "taskId")
     @Nullable
-    private Tasks chat_task;
+    private Tasks chatTask;
 
     @ManyToOne
-    @JoinColumn(name = "chat_created_by_emp_id", referencedColumnName = "emp_id")
-    private Employees chat_created_by_employee;
+    @JoinColumn(name = "chatCreatedByEmpId", referencedColumnName = "empId")
+    private Employees chatCreatedByEmployee;
 
     @ManyToMany
-    @JoinTable(name = "chat_employees", joinColumns = @JoinColumn(name = "chat_id"), inverseJoinColumns = @JoinColumn(name = "emp_id"))
-    private Set<Employees> chat_employees;
+    @JoinTable(name = "chatEmployees", joinColumns = @JoinColumn(name = "chatId"), inverseJoinColumns = @JoinColumn(name = "empId"))
+    private Set<Employees> chatEmployees;
 }

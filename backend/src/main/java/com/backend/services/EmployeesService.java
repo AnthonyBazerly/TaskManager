@@ -44,7 +44,7 @@ public class EmployeesService {
 
     public EmployeesDto createEmployee(EmployeesDto EmployeeDto) {
         Employees Employee = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
-        Employee.setEmp_password(passwordEncoder.encode(Employee.getEmp_password()));
+        Employee.setEmpPassword(passwordEncoder.encode(Employee.getEmpPassword()));
         Employees saved = employeesRepo.save(Employee);
         return employeesMapper.toDto(saved);
     }
@@ -53,7 +53,7 @@ public class EmployeesService {
         return employeesRepo.findById(id)
                 .map(existing -> {
                     Employees updatedEntity = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
-                    updatedEntity.setEmp_password(passwordEncoder.encode(updatedEntity.getEmp_password()));
+                    updatedEntity.setEmpPassword(passwordEncoder.encode(updatedEntity.getEmpPassword()));
                     Employees updated = employeesRepo.save(updatedEntity);
                     return employeesMapper.toDto(updated);
                 })

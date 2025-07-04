@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("JobsController")
 @RequestMapping("/api/jobs")
 public class JobsController {
     private final JobsService service;
@@ -30,9 +30,14 @@ public class JobsController {
         return service.getJobByName(name);
     }
 
-    @GetMapping("/rank/{rank}")
-    public List<JobsDto> getJobsByRank(@PathVariable Integer rank) {
-        return service.getJobsByRank(rank);
+    @GetMapping("/names/{name}")
+    public List<JobsDto> getJobsByName(@PathVariable String name) {
+        return service.getJobsByName(name);
+    }
+
+    @GetMapping("/rank_type/{rank:[1-6]}/{type}")
+    public List<JobsDto> getJobsByRank(@PathVariable Integer rank, @PathVariable String type) {
+        return service.getJobsByRankAndType(rank, type);
     }
 
     @PostMapping

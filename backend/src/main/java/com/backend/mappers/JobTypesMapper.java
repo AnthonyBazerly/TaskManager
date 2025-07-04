@@ -1,15 +1,17 @@
 package com.backend.mappers;
 
+import org.springframework.stereotype.Component;
 import com.backend.dtos.JobTypesDto;
 import com.backend.models.JobTypes;
 
+@Component
 public class JobTypesMapper {
     public JobTypes toEntity(JobTypesDto dto) {
         if (dto == null) {
             return null;
         }
         JobTypes entity = new JobTypes();
-        entity.setJt_name(dto.getJt_name());
+        entity.setJtName(dto.getJtName());
         return entity;
     }
 
@@ -18,7 +20,7 @@ public class JobTypesMapper {
             return null;
         }
         JobTypesDto dto = new JobTypesDto();
-        dto.setJt_name(entity.getJt_name());
+        dto.setJtName(entity.getJtName());
         return dto;
     }
 }

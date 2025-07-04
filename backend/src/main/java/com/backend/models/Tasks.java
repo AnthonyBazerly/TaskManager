@@ -24,30 +24,30 @@ import lombok.NoArgsConstructor;
 public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long task_id;
-    private String task_name;
-    private String task_description;
-    private String task_status; // Not Started, In Progress, Blocked, On Hold, Completed, Canceled, Pending
-                                // Review, Under Review, Approved, Rejected
-    private LocalDateTime task_creation_date;
+    private Long taskId;
+    private String taskName;
+    private String taskDescription;
+    private String taskStatus; // Not Started, In Progress, Blocked, On Hold, Completed, Canceled, Pending
+                               // Review, Under Review, Approved, Rejected
+    private LocalDateTime taskCreationDate;
     @Nullable
-    private LocalDateTime task_due_date;
-    private Long task_estimated_time;
-    private Integer task_progress; // 0-100%
-    private String task_priority; // Urgent, Critical, High, Regular, Low, Routine, Optional
-    private Long task_project_id; // project table needed
+    private LocalDateTime taskDueDate;
+    private Long taskEstimatedTime;
+    private Integer taskProgress; // 0-100%
+    private String taskPriority; // Urgent, Critical, High, Regular, Low, Routine, Optional
+    private Long taskProjectId; // project table needed
     // attachments can be added
 
     @ManyToMany
-    @JoinTable(name = "task_assigned_to_employees", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "emp_id"))
-    private Set<Employees> task_assigned_to_employees;
+    @JoinTable(name = "taskAssignedToEmployees", joinColumns = @JoinColumn(name = "taskId"), inverseJoinColumns = @JoinColumn(name = "empId"))
+    private Set<Employees> taskAssignedToEmployees;
 
     @ManyToOne
-    @JoinColumn(name = "task_assigned_by_emp_id", referencedColumnName = "emp_id")
-    private Employees task_assigned_by_employee;
+    @JoinColumn(name = "taskAssignedByEmpId", referencedColumnName = "empId")
+    private Employees taskAssignedByEmployee;
 
     @OneToOne
-    @JoinColumn(name = "task_chat_id", referencedColumnName = "chat_id")
+    @JoinColumn(name = "taskChatId", referencedColumnName = "chatId")
     @Nullable
-    private Chats task_chat;
+    private Chats taskChat;
 }

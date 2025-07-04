@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class JobTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long jt_id;
-    private String jt_name;
+    private Long jtId;
+    private String jtName;
 }

@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JobTypesDto {
-    private String jt_name;
+    private String jtName;
 }

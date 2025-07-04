@@ -18,21 +18,21 @@ import jakarta.persistence.JoinColumn;
 public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long emp_id;
-    private String emp_first_name;
-    private String emp_last_name;
-    private String emp_email;
-    private String emp_password;
-    private String emp_phone_number;
-    private String emp_hire_date;
-    private Long emp_salary;
+    private Long empId;
+    private String empFirstName;
+    private String empLastName;
+    private String empEmail;
+    private String empPassword;
+    private String empPhoneNumber;
+    private String empHireDate;
+    private Long empSalary;
 
     @ManyToOne
-    @JoinColumn(name = "emp_mng_id", referencedColumnName = "emp_id", nullable = true)
+    @JoinColumn(name = "empMngId", referencedColumnName = "empId", nullable = true)
     @Nullable
-    private Employees emp_manager;
+    private Employees empManager;
 
     @ManyToOne
-    @JoinColumn(name = "emp_job_id", referencedColumnName = "job_id")
-    private Jobs emp_job;
+    @JoinColumn(name = "empJobId", referencedColumnName = "jobId")
+    private Jobs empJob;
 }

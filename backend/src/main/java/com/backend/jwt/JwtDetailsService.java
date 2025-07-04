@@ -17,13 +17,13 @@ public class JwtDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Employees employee = employeesRepo.findAll().stream()
-                .filter(e -> e.getEmp_email().equalsIgnoreCase(email))
+                .filter(e -> e.getEmpEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElseThrow(() -> new UsernameNotFoundException("Employee not found with email: " + email));
         return org.springframework.security.core.userdetails.User
-                .withUsername(employee.getEmp_email())
-                .password(employee.getEmp_password())
-                .authorities(employee.getEmp_job().getJob_name())
+                .withUsername(employee.getEmpEmail())
+                .password(employee.getEmpPassword())
+                .authorities(employee.getEmpJob().getJobName())
                 .build();
     }
 }

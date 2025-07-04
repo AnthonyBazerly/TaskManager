@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController("EmployeesController")
 @RequestMapping("/api/employees")
 public class EmployeesController {
     private final AuthenticationManager authenticationManager;
