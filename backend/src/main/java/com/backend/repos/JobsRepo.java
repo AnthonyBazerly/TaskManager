@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JobsRepo extends JpaRepository<Jobs, Long> {
-    public Optional<Jobs> getJobByName(String jobName);
+    public Optional<Jobs> findByJobName(String jobName);
 
-    public List<Jobs> getJobsByName(String name);
-
-    public List<Jobs> getJobsByRankAndType(Integer rank, String type);
+    public List<Jobs> findByJobRankAndJobType_JtName(Integer jobRank, String jtName);
 }

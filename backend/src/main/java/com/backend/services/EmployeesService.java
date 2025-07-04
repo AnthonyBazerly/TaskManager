@@ -44,8 +44,10 @@ public class EmployeesService {
 
     public EmployeesDto createEmployee(EmployeesDto EmployeeDto) {
         Employees Employee = employeesMapper.toEntity(EmployeeDto, employeesRepo, jobsRepo);
-        Employee.setEmpPassword(passwordEncoder.encode(Employee.getEmpPassword()));
+        String rawPassword = Employee.getEmpPassword();
+        Employee.setEmpPassword(passwordEncoder.encode(rawPassword));
         Employees saved = employeesRepo.save(Employee);
+        System.out.println("Generated password for employee: " + rawPassword);
         return employeesMapper.toDto(saved);
     }
 

@@ -43,6 +43,5 @@ Thumbs.db
 
 # Hidden Files
 /backend/src/main/resources/
-/backend/target/classes/application.properties
-/backend/target/classes/data.sql
-/backend/target/classes/META-INF/
+/backend/target/classes/*
+!/backend/target/classes/com/*

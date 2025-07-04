@@ -36,7 +36,7 @@ public class JobsController {
     }
 
     @GetMapping("/rank_type/{rank:[1-6]}/{type}")
-    public List<JobsDto> getJobsByRank(@PathVariable Integer rank, @PathVariable String type) {
+    public List<JobsDto> getJobByRank(@PathVariable Integer rank, @PathVariable String type) {
         return service.getJobsByRankAndType(rank, type);
     }
 
