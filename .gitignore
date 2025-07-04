@@ -42,6 +42,7 @@ testem.log
 Thumbs.db
 
 # Hidden Files
+/backend.database/
 /backend/src/main/resources/
 /backend/target/classes/*
 !/backend/target/classes/com/*
