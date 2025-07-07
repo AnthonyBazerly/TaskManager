@@ -25,8 +25,8 @@ public class SecurityConfig {
                 .cors(cors -> {
                 })
                 .authorizeHttpRequests(auth -> auth
-                        // .requestMatchers("/api/employees/login").permitAll()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/employees/login").permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
