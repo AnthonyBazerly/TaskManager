@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="login-container">
+    <h1>Login</h1>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" class="form-control" placeholder="Enter your email" [(ngModel)]="email" name="email" #emailModel="ngModel" required email />
+            <div class="error" *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+                <span *ngIf="emailModel.errors?.['required']">Email is required.</span>
+                <span *ngIf="emailModel.errors?.['email']">Enter a valid email.</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" class="form-control" placeholder="Enter your password" [(ngModel)]="password" name="password" #passwordModel="ngModel" required />
+            <div class="error" *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+                <span *ngIf="passwordModel.errors?.['required']">Password is required.</span>
+            </div>
+        </div>
+        <div class="error" *ngIf="error.length > 0">
+            {{ error }}
+        </div>
+        <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+    </form>
+</div>
