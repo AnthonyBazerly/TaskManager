@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environment';
-import { env } from 'process';
 
 @Component({
   selector: 'app-login',
@@ -23,12 +22,16 @@ export class LoginComponent {
       this.error = "Email and password are required";
       return;
     }
+    if (!this.email.includes('@example.com')) {
+      this.error = "Please enter a valid email address";
+      return;
+    }
     this.loading = true;
     this.http.post<any>(`${environment.apiUrl}/api/employees/login`, { email: this.email, password: this.password }).subscribe({
       next: res => {
         this.loading = false;
         this.password = "";
-        this.authService.setLoggedIn(true);
+        this.authService.setEmployee(res.employee);
         this.router.navigate(['']);
       },
       error: err => {

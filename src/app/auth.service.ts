@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private loggedIn = false;
+  private employee: any = null;
 
-  setLoggedIn(value: boolean) {
-    this.loggedIn = value;
+  getEmployee(): any {
+    return this.employee;
   }
 
-  isLoggedIn(): boolean {
-    return this.loggedIn;
+  setEmployee(employee: any) {
+    this.employee = employee;
   }
 }

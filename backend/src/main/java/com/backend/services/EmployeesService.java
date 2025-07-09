@@ -38,6 +38,11 @@ public class EmployeesService {
                 .orElse(null);
     }
 
+    public EmployeesDto getEmployeeByEmail(String email) {
+        Employees employee = employeesRepo.findByEmail(email);
+        return employee != null ? employeesMapper.toDto(employee) : null;
+    }
+
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }

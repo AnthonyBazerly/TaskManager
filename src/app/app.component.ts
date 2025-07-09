@@ -16,11 +16,11 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) { }
 
   get isLoggedIn(){
-    return this.authService.isLoggedIn();
+    return this.authService.getEmployee() !== null;
   }
 
   Logout(){
-    this.authService.setLoggedIn(false);
+    this.authService.setEmployee(null);
     this.router.navigate(["/login"]);
   }
 }
