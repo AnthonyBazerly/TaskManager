@@ -16,9 +16,8 @@ public class JwtDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Employees employee = employeesRepo.findAll().stream()
-                .filter(e -> e.getEmpEmail().equalsIgnoreCase(email))
-                .findFirst()
+        System.out.println("All employees: " + employeesRepo.findAll());
+        Employees employee = employeesRepo.findByEmpEmailIgnoreCase(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Employee not found with email: " + email));
         return org.springframework.security.core.userdetails.User
                 .withUsername(employee.getEmpEmail())

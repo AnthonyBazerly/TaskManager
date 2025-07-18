@@ -9,8 +9,8 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
               // can access data in route
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const isLoggedIn = this.authService.isLoggedIn();
-
+    const isLoggedIn = this.authService.getEmployee() !== null;
+    
     if (state.url === '/login' && isLoggedIn) {
       this.router.navigate(['']);
       return false;

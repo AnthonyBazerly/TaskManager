@@ -22,13 +22,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookiePath("/");
+        csrfTokenRepository.setCookieName("XSRF-TOKEN");
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.domain("localhost"));
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie.sameSite("Lax"));
+        
         http.csrf(csrf -> csrf
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .cors(cors -> {})
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/security/login").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrfTokenRepository(csrfTokenRepository)
+                .requireCsrfProtectionMatcher(request -> {
+                    return request.getMethod().equals("GET") && request.getRequestURI().equals("/api/employees/get");
+                }))
+            .cors(cors -> cors
+                .configurationSource(request -> {
+                    org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+                    config.addAllowedOrigin("http://localhost:4200");
+                    config.addAllowedOriginPattern("http://localhost:4200");
+                    config.addAllowedMethod("*");
+                    config.addAllowedHeader("*");
+                    config.setAllowCredentials(true);
+                    return config;
+                }))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/employees/login", "/api/employees/get").permitAll()
+                .anyRequest().authenticated())
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

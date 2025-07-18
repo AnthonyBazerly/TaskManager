@@ -17,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController("EmployeesController")
@@ -39,6 +40,11 @@ public class EmployeesController {
         return service.getAllEmployees();
     }
 
+    @GetMapping("/get") 
+    public ResponseEntity<?> getKey() {
+        return ResponseEntity.ok(Map.of("message", "ok"));
+    }
+
     @GetMapping("/check-login")
     public ResponseEntity<?> checkLogin() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,28 +56,38 @@ public class EmployeesController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginRequest, HttpServletRequest request) {
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
+        System.out.println("Login attempt with email: " + loginRequest.getEmail() + 
+                           " and password: " + loginRequest.getPassword());
+        try{
+            String email = loginRequest.getEmail();
+            String password = loginRequest.getPassword();
+            
+            try {
+                System.out.println(service.checkPassword(password, "$2a$12$1lQVbGecYwug7TC6e21/uupPudi0T2YXNHEsJfj/Cm6LyeguWreAS"));
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(email, password));
+            } catch (AuthenticationException e) {
+                System.out.println("Authentication failed with error: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            }
+        
+            String token = jwtUtil.generateToken(email);
+            ResponseCookie cookie = ResponseCookie.from("token", token)
+                .httpOnly(true)
+                .path("/")
+                .sameSite("Strict")
+                .build();
+        
+            EmployeesDto response = service.getEmployeeByEmail(email);
+            System.out.println("User logged in: " + response.getEmpEmail() + " with token: " + token);
 
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            return ResponseEntity.ok()
+                .header("Set-Cookie", cookie.toString())
+                .body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("An error occurred during login: " + e.getMessage());
         }
-
-        String token = jwtUtil.generateToken(email);
-        ResponseCookie cookie = ResponseCookie.from("token", token)
-            .httpOnly(true)
-            .path("/")
-            .sameSite("Strict")
-            .build();
-
-        EmployeesDto response = service.getEmployeeByEmail(email);
-
-        return ResponseEntity.ok()
-            .header("Set-Cookie", cookie.toString())
-            .body(response);
     }
 
     @PostMapping("/logout")
@@ -82,6 +98,8 @@ public class EmployeesController {
             .sameSite("Strict")
             .maxAge(0)
             .build();
+
+        SecurityContextHolder.clearContext();
 
         return ResponseEntity.ok()
             .header("Set-Cookie", cookie.toString())

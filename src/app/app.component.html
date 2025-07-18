@@ -1,14 +1,20 @@
-<nav class="main-nav">
-  <div class="nav-list">
-    <div class="nav-items">
-      <button routerLink="">Home</button>
-      <button routerLink="/tasks">View My Tasks</button>
-      <button routerLink="/tasks/new">Create New Task</button>
+<div class="app-container">
+  <nav *ngIf="isLoggedIn" class="main-nav">
+    <div class="nav-list">
+      <div class="nav-items">
+        <button (click)="NavigateTo('')"><i class="fas fa-clipboard"></i>&nbsp;&nbsp;&nbsp;Home</button>
+        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-network-wired"></i>&nbsp;&nbsp;&nbsp;Workspace</button>
+        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-list-check"></i>&nbsp;&nbsp;&nbsp;Tasks</button>
+        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-square-phone"></i>&nbsp;&nbsp;&nbsp;Meetings</button>
+        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-calendar-days"></i>&nbsp;&nbsp;&nbsp;Timesheets</button>
+        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-message"></i>&nbsp;&nbsp;&nbsp;Chats</button>
+      </div>
+      <div class="nav-items">
+        <button (click)="Logout()"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Log Out</button>
+      </div>
     </div>
-    <div class="nav-items">
-      <button *ngIf="!isLoggedIn()" routerLink="/login">Login</button>
-      <button *ngIf="isLoggedIn()" (click)="Logout()">Logout</button>
-    </div>
+  </nav>
+  <div class="router-outlet">
+    <router-outlet></router-outlet>
   </div>
-</nav>
-<router-outlet></router-outlet>
+</div>

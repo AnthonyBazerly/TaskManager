@@ -39,7 +39,7 @@ public class EmployeesService {
     }
 
     public EmployeesDto getEmployeeByEmail(String email) {
-        Employees employee = employeesRepo.findByEmail(email);
+        Employees employee = employeesRepo.findByEmpEmail(email);
         return employee != null ? employeesMapper.toDto(employee) : null;
     }
 
