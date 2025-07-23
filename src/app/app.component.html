@@ -1,20 +1,71 @@
 <div class="app-container">
-  <nav *ngIf="isLoggedIn" class="main-nav">
-    <div class="nav-list">
-      <div class="nav-items">
-        <button (click)="NavigateTo('')"><i class="fas fa-clipboard"></i>&nbsp;&nbsp;&nbsp;Home</button>
-        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-network-wired"></i>&nbsp;&nbsp;&nbsp;Workspace</button>
-        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-list-check"></i>&nbsp;&nbsp;&nbsp;Tasks</button>
-        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-square-phone"></i>&nbsp;&nbsp;&nbsp;Meetings</button>
-        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-calendar-days"></i>&nbsp;&nbsp;&nbsp;Timesheets</button>
-        <button (click)="NavigateTo('tasks')"><i class="fa-solid fa-message"></i>&nbsp;&nbsp;&nbsp;Chats</button>
+  <div *ngIf="isLoggedIn" class="header">
+    <div class="nav-header">
+      <div class="nav-title-padding">
+        <button [ngClass]="isMenuOpen ? 'nav-title' : 'nav-title collapsed'" (click)="NavigateTo('')">
+          <i class="fas fa-clipboard"></i>
+          <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Task Manager</span>
+        </button>
       </div>
-      <div class="nav-items">
-        <button (click)="Logout()"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Log Out</button>
-      </div>
+      <button class="nav-button" (click)="ToggleMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <button [ngClass]="backwardRoutes.length > 0 ? 'nav-button' : 'nav-button disabled'" (click)="NavigateBackward()">
+        <i class="fa-solid fa-left-long"></i>
+      </button>
+      <button [ngClass]="forwardRoutes.length > 0 ? 'nav-button' : 'nav-button disabled'" (click)="NavigateForward()">
+        <i class="fa-solid fa-right-long"></i>
+      </button>
     </div>
-  </nav>
-  <div class="router-outlet">
-    <router-outlet></router-outlet>
+    <button class="nav-button" (click)="Logout()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+  <div class="flex-container">
+    <nav *ngIf="isLoggedIn" class="main-nav">  
+      <div [ngClass]="isMenuOpen ? 'nav-list' : 'nav-list collapsed'">
+        <div class="nav-items">
+          <button (click)="NavigateTo('employees')">
+            <span class="icon-text">
+              <i class="fa-solid fa-circle-user"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Employees</span>
+            </span>
+          </button>
+          <button (click)="NavigateTo('tasks')">
+            <span class="icon-text">
+              <i class="fa-solid fa-network-wired"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Workspace</span>
+            </span>
+          </button>
+          <button (click)="NavigateTo('tasks')">
+            <span class="icon-text">
+              <i class="fa-solid fa-list-check"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Tasks</span>
+            </span>
+          </button>
+          <button (click)="NavigateTo('tasks')">
+            <span class="icon-text">
+              <i class="fa-solid fa-square-phone"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Meetings</span>
+            </span>
+          </button>
+          <button (click)="NavigateTo('tasks')">
+            <span class="icon-text">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Timesheets</span>
+            </span>
+          </button> 
+          <button (click)="NavigateTo('tasks')">
+            <span class="icon-text">
+              <i class="fa-solid fa-message"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Chats</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="router-outlet">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

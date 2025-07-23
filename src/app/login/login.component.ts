@@ -19,7 +19,6 @@ export class LoginComponent {
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) { }
 
   onLogin() {
-    debugger;
     this.error = ""; 
     if (!this.email || !this.password) {
       this.error = "Email and password are required";
@@ -38,7 +37,7 @@ export class LoginComponent {
         this.router.navigate(['']);
       },
       error: err => {
-        debugger;
+        
         this.loading = false;
         if (err.status === 401) {
           this.error = "Invalid email or password";

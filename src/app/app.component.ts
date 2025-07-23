@@ -15,6 +15,9 @@ import { catchError, of } from 'rxjs';
 })
 export class AppComponent {
   title = 'project';
+  isMenuOpen = true;
+  backwardRoutes: String[] = [];
+  forwardRoutes: String[] = [];
 
   constructor(
     private router: Router,
@@ -48,8 +51,42 @@ export class AppComponent {
     return this.authService.getEmployee() !== null;
   }
 
+  ToggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
   NavigateTo(route: String) {
+    
+    if (this.backwardRoutes.length === 0 || this.backwardRoutes[this.backwardRoutes.length - 1] !== this.router.url) {
+      this.backwardRoutes.push(this.router.url);
+    }
+    if (this.backwardRoutes.length > 20) {
+      this.backwardRoutes.shift();
+    }
+    this.forwardRoutes = [];
     this.router.navigate([route]);
+  }
+
+  NavigateBackward() {
+    
+    if (this.backwardRoutes.length > 0) {
+      const lastRoute = this.backwardRoutes.pop();
+      if (lastRoute) {
+        this.forwardRoutes.push(this.router.url);
+        this.router.navigate([lastRoute]);
+      }
+    }
+  }
+
+  NavigateForward() {
+    
+    if (this.forwardRoutes.length > 0) {
+      const nextRoute = this.forwardRoutes.pop();
+      if (nextRoute) {
+        this.backwardRoutes.push(this.router.url);
+        this.router.navigate([nextRoute]);
+      }
+    }
   }
 
   Logout() {

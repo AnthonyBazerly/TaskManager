@@ -1,0 +1,44 @@
+<table class="item-list">
+  <thead class="item-headers">
+    <tr>
+      <th>
+        <input 
+          id="selectAll"
+          type="checkbox"
+          [checked]="allSelected"
+          (change)="selectAll($event)"
+        />
+      </th>
+      <th><ng-content select="[header-one]"></ng-content></th>
+      <th><ng-content select="[header-two]"></ng-content></th>
+      <th><ng-content select="[header-three]"></ng-content></th>
+      <th><ng-content select="[header-four]"></ng-content></th>
+      <th><ng-content select="[header-five]"></ng-content></th>
+      <th><ng-content select="[header-six]"></ng-content></th>
+      <th><ng-content select="[header-seven]"></ng-content></th>
+      <th><ng-content select="[header-eight]"></ng-content></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of array">
+      <td>
+        <input 
+          class="item-checkbox" 
+          type="checkbox" 
+          [checked]="selectedItems.includes(item)"
+          (change)="onSelectionChange(item, $event)" 
+        />
+      </td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorOne']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorTwo']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorThree']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorFour']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorFive']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorSix']; context: { $implicit: item }"></ng-container></td>
+      <td><ng-container *ngTemplateOutlet="templates['selectorSeven']; context: { $implicit: item }"></ng-container></td>
+      <td class="table-actions">
+        <button class="item-buttons" (click)="editItem(item)">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

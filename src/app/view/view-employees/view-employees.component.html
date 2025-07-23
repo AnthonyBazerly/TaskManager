@@ -1,0 +1,59 @@
+<div class="emp-container">
+  <h1>Employees</h1>
+  
+  <div class="search-bar-actions">
+    <input type="text" placeholder="Search employees..." />
+    <div class="actions">
+      <button class="emp-buttons" (click)="createEmployee()">New Employee</button>
+      <button class="emp-buttons" (click)="createChat()">New Chat</button>
+      <button class="emp-buttons" (click)="assignTask()">New Task</button>
+    </div>
+  </div>
+  
+  <custom-table 
+    [array]="employees" 
+    [selectedItems]="selectedEmployees" 
+    [filteredItems]="filteredEmployees" 
+    [route]="route"
+    [templates]="{
+      selectorOne: selectorOne,
+      selectorTwo: selectorTwo,
+      selectorThree: selectorThree,
+      selectorFour: selectorFour,
+      selectorFive: selectorFive,
+      selectorSix: selectorSix,
+      selectorSeven: selectorSeven
+    }"
+  >
+    <ng-container header-one>Name</ng-container>
+    <ng-container header-two>Email</ng-container>
+    <ng-container header-three>Phone Number</ng-container>
+    <ng-container header-four>Hire Date</ng-container>
+    <ng-container header-five>Manager</ng-container>
+    <ng-container header-six>Position</ng-container>
+    <ng-container header-seven>Salary</ng-container>
+    <ng-container header-eight>Actions</ng-container>
+
+    <ng-template #selectorOne let-item>
+      <ng-container>{{ item.empFirstName + ' ' + item.empLastName }}</ng-container>
+    </ng-template>
+    <ng-template #selectorTwo let-item>
+      <ng-container>{{ item.empEmail }}</ng-container>
+    </ng-template>
+    <ng-template #selectorThree let-item>
+      <ng-container>{{ item.empPhoneNumber }}</ng-container>
+    </ng-template>
+    <ng-template #selectorFour let-item>
+      <ng-container>{{ item.empHireDate }}</ng-container>
+    </ng-template>
+    <ng-template #selectorFive let-item>
+      <ng-container>{{ item.empMng }}</ng-container>
+    </ng-template>
+    <ng-template #selectorSix let-item>
+      <ng-container>{{ item.empJob }}</ng-container>
+    </ng-template>
+    <ng-template #selectorSeven let-item>
+      <ng-container>{{ item.empSalary + ' USD' }}</ng-container>
+    </ng-template>
+  </custom-table>
+</div>

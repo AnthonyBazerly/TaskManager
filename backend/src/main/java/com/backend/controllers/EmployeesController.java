@@ -4,6 +4,7 @@ import com.backend.dtos.EmployeesDto;
 import com.backend.dtos.LoginDto;
 import com.backend.jwt.JwtUtil;
 import com.backend.services.EmployeesService;
+import com.backend.services.JobsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -24,20 +25,34 @@ import java.util.Map;
 @RequestMapping("/api/employees")
 public class EmployeesController {
     private final EmployeesService service;
+    private final JobsService jobsService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public EmployeesController(EmployeesService service, 
+    public EmployeesController(EmployeesService service, JobsService jobsService,
                                AuthenticationManager authenticationManager,
                                JwtUtil jwtUtil) {
         this.service = service;
+        this.jobsService = jobsService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
     public List<EmployeesDto> getAllEmployees() {
-        return service.getAllEmployees();
+        List<EmployeesDto> employees = service.getAllEmployees();
+        for (EmployeesDto employee : employees) {
+            if (employee.getEmpJobId() != null) {
+                employee.setEmpJob(jobsService.getJobById(employee.getEmpJobId()).getJobName());
+            }
+            if (employee.getEmpMngId() != null) {
+                EmployeesDto manager = service.getEmployeeById(employee.getEmpMngId());
+                employee.setEmpMng(manager != null ? manager.getEmpFirstName() + " " + manager.getEmpLastName() : "N/A");
+            } else {
+                employee.setEmpMng("N/A");
+            }
+        }
+        return employees;
     }
 
     @GetMapping("/get") 

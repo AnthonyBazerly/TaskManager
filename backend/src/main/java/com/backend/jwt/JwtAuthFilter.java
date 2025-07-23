@@ -28,22 +28,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain chain)
             throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
-        String email = null;
         String jwt = null;
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-            email = jwtUtil.extractEmail(jwt);
+        if (request.getCookies() != null) {
+            for (var cookie : request.getCookies()) {
+            if ("token".equals(cookie.getName())) {
+                jwt = cookie.getValue();
+                break;
+            }
+            }
         }
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var userDetails = userDetailsService.loadUserByUsername(email);
-            if (jwtUtil.validateToken(jwt)) {
-                var authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        if (jwt != null) {
+            String email = jwtUtil.extractEmail(jwt);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                var userDetails = userDetailsService.loadUserByUsername(email);
+                if (jwtUtil.validateToken(jwt)) {
+                    var authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
         }
         chain.doFilter(request, response);

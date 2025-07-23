@@ -13,6 +13,8 @@ public class EmployeesDto {
     private String empPhoneNumber;
     private String empHireDate;
     private Long empJobId;
+    private String empJob;
     private Long empSalary;
     private Long empMngId;
+    private String empMng;
 }
