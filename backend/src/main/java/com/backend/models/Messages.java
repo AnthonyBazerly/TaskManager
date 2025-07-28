@@ -29,7 +29,6 @@ public class Messages {
 
     @ManyToOne
     @JoinColumn(name = "msgChatId", referencedColumnName = "chatId")
-    @Nullable
     private Chats msgChat;
 
     @ManyToOne

@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,8 @@ public class Chats {
     private Long chatId;
     private String chatName;
     private String chatStatus; // pinned, active, archived
+    private String chatType; // group, private, chatroom
     private LocalDateTime chatCreationDate;
-    @Nullable
-    private LocalDateTime chatUpdatedDate;
 
     @ManyToOne
     @JoinColumn(name = "chatTaskId", referencedColumnName = "taskId")
@@ -36,10 +36,21 @@ public class Chats {
     private Tasks chatTask;
 
     @ManyToOne
-    @JoinColumn(name = "chatCreatedByEmpId", referencedColumnName = "empId")
-    private Employees chatCreatedByEmployee;
+    @JoinColumn(name = "chatOwnerId", referencedColumnName = "empId")
+    @Nullable
+    private Employees chatOwner;
 
     @ManyToMany
     @JoinTable(name = "chatEmployees", joinColumns = @JoinColumn(name = "chatId"), inverseJoinColumns = @JoinColumn(name = "empId"))
     private Set<Employees> chatEmployees;
+
+    @ManyToMany
+    @JoinTable(name = "chatAdmins", joinColumns = @JoinColumn(name = "chatId"), inverseJoinColumns = @JoinColumn(name = "empId"))
+    @Nullable
+    private Set<Employees> chatAdmins;
+
+    @OneToOne
+    @JoinColumn(name = "chatLastMessageId", referencedColumnName = "msgId")
+    @Nullable
+    private Messages chatLastMessage;
 }

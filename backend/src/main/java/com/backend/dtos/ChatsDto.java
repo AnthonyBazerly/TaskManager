@@ -12,9 +12,17 @@ public class ChatsDto {
     private Long chatId;
     private String chatName;
     private String chatStatus;
+    private String chatType;
     private LocalDateTime chatCreationDate;
-    private LocalDateTime chatUpdatedDate;
+    private LocalDateTime chatLastUpdate;
     private Long chatTaskId;
-    private Long chatCreatedByEmpId;
+    private String chatTask;
+    private Long chatOwnerId;
+    private String chatOwner;
     private Set<Long> chatEmployeesIds;
+    private Set<String> chatEmployees;
+    private Set<Long> chatAdminsIds;
+    private Set<String> chatAdmins;
+    private Long chatLastMessageId;
+    private String chatLastMessage;
 }

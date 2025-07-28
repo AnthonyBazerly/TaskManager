@@ -31,19 +31,19 @@ public class MessagesService {
                 .collect(Collectors.toList());
     }
 
-    public MessagesDto getJobTypeById(Long id) {
+    public MessagesDto getMessageById(Long id) {
         return messagesRepo.findById(id)
                 .map(messagesMapper::toDto)
                 .orElse(null);
     }
 
-    public MessagesDto createJobType(MessagesDto dto) {
-        Messages jobtype = messagesMapper.toEntity(dto, chatRepo, employeesRepo, messagesRepo);
-        Messages saved = messagesRepo.save(jobtype);
+    public MessagesDto createMessage(MessagesDto dto) {
+        Messages Message = messagesMapper.toEntity(dto, chatRepo, employeesRepo, messagesRepo);
+        Messages saved = messagesRepo.save(Message);
         return messagesMapper.toDto(saved);
     }
 
-    public MessagesDto updateJobType(Long id, MessagesDto jobDto) {
+    public MessagesDto updateMessage(Long id, MessagesDto jobDto) {
         return messagesRepo.findById(id)
                 .map(existing -> {
                     existing = messagesMapper.toEntity(jobDto, chatRepo, employeesRepo, messagesRepo);
@@ -53,7 +53,7 @@ public class MessagesService {
                 .orElse(null);
     }
 
-    public void deleteJobType(Long id) {
+    public void deleteMessage(Long id) {
         messagesRepo.deleteById(id);
     }
 }

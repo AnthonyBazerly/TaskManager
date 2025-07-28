@@ -48,7 +48,7 @@ export class AppComponent {
   }
 
   get isLoggedIn() {
-    return this.authService.getEmployee() !== null;
+    return this.authService.employee !== null;
   }
 
   ToggleMenu() {
@@ -90,7 +90,7 @@ export class AppComponent {
   }
 
   Logout() {
-    this.authService.setEmployee(null);
+    this.authService.employee = null;
     if (isPlatformBrowser(this.platformId)) {
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }

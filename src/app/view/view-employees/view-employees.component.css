@@ -7,13 +7,6 @@
     background: #fff;
 }
 
-.emp-container h1 {
-    font-size: 2rem;
-    margin-bottom: 24px;
-    color: #1976d2;
-    font-weight: 600;
-}
-
 .search-bar-actions {
     display: flex;
     justify-content: space-between;

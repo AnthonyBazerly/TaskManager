@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../environment';
 import { CustomTableComponent } from './custom-table/custom-table.component';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-view-employees',
@@ -20,17 +21,22 @@ export class ViewEmployeesComponent {
   allSelected: boolean = false;
   route: string = '/employees';
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private authService: AuthService) { }
 
   ngOnInit() {
-    this.loadEmployees();
+    this.employees = this.authService.employees;
+    if (this.employees.length === 0) {
+      this.loadEmployees();
+    }
+    
+    this.filteredEmployees = this.employees;
   }
 
   loadEmployees() {
     this.http.get<any[]>(`${environment.apiUrl}/api/employees`, { withCredentials: true }).subscribe({
       next: res => {
         this.employees = res;
-        this.filteredEmployees = res;
+        this.authService.employees = res;
       },
       error: err => {
         console.error("Failed to load employees", err);

@@ -49,18 +49,18 @@
               <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Meetings</span>
             </span>
           </button>
+          <button (click)="NavigateTo('chats')">
+            <span class="icon-text">
+              <i class="fa-solid fa-message"></i>
+              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Chats</span>
+            </span>
+          </button>
           <button (click)="NavigateTo('tasks')">
             <span class="icon-text">
               <i class="fa-solid fa-calendar-days"></i>
               <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Timesheets</span>
             </span>
           </button> 
-          <button (click)="NavigateTo('tasks')">
-            <span class="icon-text">
-              <i class="fa-solid fa-message"></i>
-              <span [ngClass]="isMenuOpen ? 'nav-span' : 'nav-span hidden'">&nbsp;Chats</span>
-            </span>
-          </button>
         </div>
       </div>
     </nav>

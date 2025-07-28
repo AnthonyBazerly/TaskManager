@@ -21,22 +21,22 @@ public class MessagesController {
     }
 
     @GetMapping("/{id:[0-9]+}")
-    public MessagesDto getJobTypeById(@PathVariable Long id) {
-        return service.getJobTypeById(id);
+    public MessagesDto getMessageById(@PathVariable Long id) {
+        return service.getMessageById(id);
     }
 
     @PostMapping
-    public MessagesDto createJobType(@RequestBody MessagesDto dto) {
-        return service.createJobType(dto);
+    public MessagesDto createMessage(@RequestBody MessagesDto dto) {
+        return service.createMessage(dto);
     }
 
     @PutMapping("/{id:[0-9]+}")
-    public MessagesDto updateJobType(@PathVariable Long id, @RequestBody MessagesDto dto) {
-        return service.updateJobType(id, dto);
+    public MessagesDto updateMessage(@PathVariable Long id, @RequestBody MessagesDto dto) {
+        return service.updateMessage(id, dto);
     }
 
     @DeleteMapping("/{id:[0-9]+}")
-    public void deleteJobType(@PathVariable Long id) {
-        service.deleteJobType(id);
+    public void deleteMessage(@PathVariable Long id) {
+        service.deleteMessage(id);
     }
 }

@@ -33,7 +33,7 @@ export class LoginComponent {
       next: res => {
         this.loading = false;
         this.password = "";
-        this.authService.setEmployee(res.employee);
+        this.authService.employee = res.employee;
         this.router.navigate(['']);
       },
       error: err => {

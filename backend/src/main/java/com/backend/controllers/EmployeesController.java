@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -41,10 +42,12 @@ public class EmployeesController {
     @GetMapping
     public List<EmployeesDto> getAllEmployees() {
         List<EmployeesDto> employees = service.getAllEmployees();
+
         for (EmployeesDto employee : employees) {
             if (employee.getEmpJobId() != null) {
                 employee.setEmpJob(jobsService.getJobById(employee.getEmpJobId()).getJobName());
             }
+
             if (employee.getEmpMngId() != null) {
                 EmployeesDto manager = service.getEmployeeById(employee.getEmpMngId());
                 employee.setEmpMng(manager != null ? manager.getEmpFirstName() + " " + manager.getEmpLastName() : "N/A");
@@ -52,6 +55,7 @@ public class EmployeesController {
                 employee.setEmpMng("N/A");
             }
         }
+        
         return employees;
     }
 
@@ -123,7 +127,24 @@ public class EmployeesController {
 
     @GetMapping("/{id:[0-9]+}")
     public EmployeesDto getEmployeeById(@PathVariable Long id) {
-        return service.getEmployeeById(id);
+        EmployeesDto employee = service.getEmployeeById(id);
+
+        if (employee == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+        }
+        
+        if (employee.getEmpJobId() != null) {
+            employee.setEmpJob(jobsService.getJobById(employee.getEmpJobId()).getJobName());
+        }
+
+        if (employee.getEmpMngId() != null) {
+            EmployeesDto manager = service.getEmployeeById(employee.getEmpMngId());
+            employee.setEmpMng(manager != null ? manager.getEmpFirstName() + " " + manager.getEmpLastName() : "N/A");
+        } else {
+            employee.setEmpMng("N/A");
+        }
+        
+        return employee;
     }
 
     @PostMapping

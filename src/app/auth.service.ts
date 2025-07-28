@@ -5,16 +5,34 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-  private employee: any = null;
+  private _employee: any = null;
+  private _employees: any[] = [];
+  private _chats: any[] = [];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  getEmployee(): any {
-    return this.employee;
+  get employee(): any {
+    return this._employee;
   }
 
-  setEmployee(employee: any) {
-    this.employee = employee;
+  set employee(value: any) {
+    this._employee = value;
+  }
+
+  get employees(): any[] {
+    return this._employees;
+  }
+
+  set employees(value: any[]) {
+    this._employees = value;
+  }
+
+  get chats(): any[] {
+    return this._chats;
+  }
+
+  set chats(value: any[]) {
+    this._chats = value;
   }
 
   getCsrfToken(): string | undefined {
